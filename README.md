@@ -1,13 +1,4 @@
-# Todo's
 
-- Documentação da arquitetura Clear com .Net Core
-- Verificar uso de Docker ou Serviços Linux
-- Desenvolver o Welcome Kit do Projeto
-- Organização dos Repositórios
-
-## Done
-  - Template de Projeto para Asp.Net Core Web Api para o projeto com dependências
----
 
 [Documentação da Arquitetura Clean](/docs/Clean.md)
 
