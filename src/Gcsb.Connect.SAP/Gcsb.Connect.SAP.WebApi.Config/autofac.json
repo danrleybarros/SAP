@@ -1,0 +1,21 @@
+﻿{
+  "defaultAssembly": "Gcsb.Connect.SAP.Infrastructure",
+  "modules": [
+    {
+      "type": "Gcsb.Connect.SAP.Infrastructure.Modules.WebApiModule",
+      "properties": {
+      }
+    },
+    {
+      "type": "Gcsb.Connect.SAP.Infrastructure.Modules.ApplicationModule",
+      "properties": {
+      }
+    },
+    {
+      "type": "Gcsb.Connect.SAP.Infrastructure.Modules.InfrastructureDefaultModule"
+    },
+    {
+      "type": "Gcsb.Connect.SAP.Infrastructure.PostgresDataAccess.Module"
+    }
+  ]
+}

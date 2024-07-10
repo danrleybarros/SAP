@@ -1,0 +1,40 @@
+{
+  "interfaces": [
+    {
+      "type": "BILL",
+      "source": "/app/sap/bill",
+      "process": "/app/sap/processfile",
+      "dest": "/app/sap/output",
+      "order": 0,
+      "mode": "local",
+      "search": ".csv"
+    },
+    {
+      "type": "PAYMENT",
+      "source": "/app/sap/pay",
+      "process": "/app/sap/processfile",
+      "dest": "/app/sap/output",
+      "order": 1,
+      "mode": "local",
+      "search": ".tsv"
+    },
+    {
+      "type": "PAYMENTBOLETO",
+      "source": "/app/sap/payboleto",
+      "process": "/app/sap/processfile",
+      "dest": "/app/sap/output",
+      "order": 3,
+      "mode": "local",
+      "search": ".tsv"
+    },
+    {
+      "type": "RETURNNF",
+      "source": "{\"tbra\": \"/dados/vivo77434/retorno/\",\"cloudco\": \"/dados/cloudco/retorno/\"}",
+      "process": "/app/sap/processfile",
+      "dest": "/app/sap/output",
+      "order": 2,
+      "mode": "sftp",
+      "search": ""
+    }
+  ]
+}

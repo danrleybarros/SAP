@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  gcsbconnect-intsap-movefilejsdn:
+    image: ${DOCKER_REGISTRY-}gcsbconnect-intsap-movefilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.MoveJsdnFile/Dockerfile
+      args:
+        FEED_URL: https://pkgs.dev.azure.com/globalwebcsb/_packaging/gcsbvivofeed/nuget/v3/index.json
+    networks:
+      - gcsb.connect.vivo
+    depends_on:      
+      - gcsbconnect-intsap-readfilejsdn
+  
+  gcsbconnect-intsap-readfilejsdn:
+    image: ${DOCKER_REGISTRY-}gcsbconnect-intsap-readfilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.ReadJsdnFile/Dockerfile
+      args:
+        FEED_URL: https://pkgs.dev.azure.com/globalwebcsb/_packaging/gcsbvivofeed/nuget/v3/index.json
+    networks:
+      - gcsb.connect.vivo
+    depends_on:      
+      - gcsbconnect-intsap-writefilejsdn
+
+  gcsbconnect-intsap-writefilejsdn:
+    image: ${DOCKER_REGISTRY-}gcsbconnect-intsap-writefilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.WriteJsdnFile/Dockerfile
+      args:
+        FEED_URL: https://pkgs.dev.azure.com/globalwebcsb/_packaging/gcsbvivofeed/nuget/v3/index.json
+    networks:
+      - gcsb.connect.vivo    
+
+  gcsbconnect-intsap-apiconfig:
+    image: ${DOCKER_REGISTRY-}gcsbconnect-intsap-apiconfig
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.WebApi.Config/Dockerfile
+      args:
+        FEED_URL: https://pkgs.dev.azure.com/globalwebcsb/_packaging/gcsbvivofeed/nuget/v3/index.json
+    networks:
+      - gcsb.connect.vivo
+    depends_on:
+      - gcsbconnect-intsap-writefilejsdn   
+
+volumes:
+  pgdata:  
+
+networks:
+  gcsb.connect.vivo:

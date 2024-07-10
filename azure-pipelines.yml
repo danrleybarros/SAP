@@ -1,0 +1,279 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+pool:
+  name: Linux
+
+trigger: none
+
+parameters:  
+- name: Dev_1
+  type: boolean
+- name: Dev_2
+  type: boolean
+- name: Dev_3
+  type: boolean
+- name: Qa_1
+  type: boolean
+- name: Qa_2
+  type: boolean
+- name: Qa_3
+  type: boolean
+     
+variables:
+  chart-name: gcsb-connect-sap
+  chart-dir: chart/gcsb-connect-sap/
+  release-name: sap
+
+stages:
+- stage: Build
+  variables: 
+  - group: DOTNET_CLI_HOME
+  jobs:
+    - job:
+      steps:
+      - task: Bash@3
+        inputs:
+          targetType: inline
+          script: docker rmi -f $(docker images | grep "<none>" | awk "{print \$3}")
+        displayName: 'Remove Images'
+        continueOnError: true
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            sed -E -i'' "s/(.*\{DOCKER_REGISTRY-\}gcsbconnect-intsap-movefilejsdn).*/\1:$(Build.BuildId)/" 'docker-compose.yml'
+            sed -E -i'' "s/(.*\{DOCKER_REGISTRY-\}gcsbconnect-intsap-readfilejsdn).*/\1:$(Build.BuildId)/" 'docker-compose.yml'
+            sed -E -i'' "s/(.*\{DOCKER_REGISTRY-\}gcsbconnect-intsap-writefilejsdn).*/\1:$(Build.BuildId)/" 'docker-compose.yml'
+            sed -E -i'' "s/(.*\{DOCKER_REGISTRY-\}gcsbconnect-intsap-apiconfig).*/\1:$(Build.BuildId)/" 'docker-compose.yml'
+            cat docker-compose.yml
+          workingDirectory: 'src/Gcsb.Connect.SAP'
+        displayName: 'Seed'
+        continueOnError: true
+      - task: DockerComposegw@0
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'Pay-As-You-Go (35792565-8cea-42cb-9d03-ae1a8262e239)-8892'
+          azureContainerRegistry: '{"loginServer":"acrvivo.azurecr.io", "id" : "/subscriptions/35792565-8cea-42cb-9d03-ae1a8262e239/resourceGroups/GW_CLOUD_SPO_TELEFONICA_CSB-devs/providers/Microsoft.ContainerRegistry/registries/acrvivo"}'
+          dockerComposeFile: '**/docker-compose.yml'
+          action: 'Run a Docker Compose command'
+          dockerComposeCommand: 'build --no-cache --build-arg PAT=$(PAT)'
+      
+      - task: DockerComposegw@0
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          azureSubscription: 'Pay-As-You-Go (35792565-8cea-42cb-9d03-ae1a8262e239)-8892'
+          azureContainerRegistry: '{"loginServer":"acrvivo.azurecr.io", "id" : "/subscriptions/35792565-8cea-42cb-9d03-ae1a8262e239/resourceGroups/GW_CLOUD_SPO_TELEFONICA_CSB-devs/providers/Microsoft.ContainerRegistry/registries/acrvivo"}'
+          dockerComposeFile: '**/docker-compose.yml'
+          action: 'Push services'
+          additionalImageTags: '$(Build.BuildId)'
+          pushImageList: '$(build.artifactstagingdirectory)/imagelist.txt'
+      
+      - task: Bash@3
+        displayName: Anchore
+        inputs:
+          targetType: 'inline'
+          script: 'python3.6 /home/azureuser/GW_Pipeline_AnchoreTask/PyScripts/analyseimages.py $(build.artifactstagingdirectory)/imagelist.txt'
+
+# - stage: Dev
+#   variables:
+#     namespace: dev-sap
+#   jobs:
+#   - deployment: 
+#     pool: Linux
+#     environment: Dev.dev-sap
+#     variables:
+#     - name: envname
+#       value: dev
+#     - name: int-prefix
+#       value: vivo-int-dev-k
+#     - name: admin-prefix
+#       value: admin-dev
+#     - template: pipeline/vars.yaml 
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - template: azure-pipelines.deploy.yaml
+
+- stage: Dev_1
+  variables:
+    namespace: dev-1-sap
+  condition:  |
+    and
+    (
+      eq('${{ parameters.Dev_1 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning')
+    )
+  dependsOn:
+  - Build
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Dev-1.dev-1-sap
+    variables:
+    - name: envname
+      value: dev-1
+    - name: int-prefix
+      value: int-dev-1
+    - name: admin-prefix
+      value: admin-dev-1
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml
+          
+- stage: Dev_2
+  variables:
+    namespace: dev-2-sap
+  condition:  |
+    and
+    (
+      eq('${{ parameters.Dev_2 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning')
+    )
+  dependsOn:
+  - Build
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Dev-2.dev-2-sap
+    variables:
+    - name: envname
+      value: dev-2
+    - name: int-prefix
+      value: int-dev-2
+    - name: admin-prefix
+      value: admin-dev-2
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml
+          
+- stage: Dev_3
+  variables:
+    namespace: dev-3-sap
+  condition:  |
+    and
+    (
+      eq('${{ parameters.Dev_3 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning')
+    )
+  dependsOn:
+  - Build
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Dev-3.dev-3-sap
+    variables:    
+    - name: envname
+      value: dev-3
+    - name: int-prefix
+      value: int-dev-3
+    - name: admin-prefix
+      value: admin-dev-3
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml
+
+- stage: Qa_1
+  variables:
+    namespace: qa-1-sap
+  dependsOn:
+  - Build
+  - Dev_1
+  condition: |
+    and
+    (
+      eq('${{ parameters.Qa_1 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning'),
+      in(dependencies.Dev_1.result, 'Succeeded', 'Skipped')
+    )
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Qa-1.qa-1-sap
+    variables:
+    - name: envname
+      value: qa-1
+    - name: int-prefix
+      value: int-qa-1
+    - name: admin-prefix
+      value: admin-qa-1
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml
+          
+- stage: Qa_2
+  variables:
+    namespace: qa-2-sap
+  dependsOn:
+  - Build
+  - Dev_2
+  condition: |
+    and
+    (
+      eq('${{ parameters.Qa_2 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning'),
+      in(dependencies.Dev_2.result, 'Succeeded', 'Skipped')
+    )
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Qa-2.qa-2-sap
+    variables:
+    - name: envname
+      value: qa-2
+    - name: int-prefix
+      value: int-qa-2
+    - name: admin-prefix
+      value: admin-qa-2
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml
+          
+- stage: Qa_3
+  variables:
+    namespace: qa-3-sap
+  dependsOn:
+  - Build
+  - Dev_3
+  condition: |
+    and
+    (
+      eq('${{ parameters.Qa_3 }}', true),
+      in(dependencies.Build.result, 'Succeeded', 'Warning'),
+      in(dependencies.Dev_3.result, 'Succeeded', 'Skipped')
+    )
+  jobs:
+  - deployment: 
+    pool: Linux
+    environment: Qa-3.qa-3-sap
+    variables:
+    - name: envname
+      value: qa-3
+    - name: int-prefix
+      value: int-qa-3
+    - name: admin-prefix
+      value: admin-qa-3
+    - template: pipeline/vars.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: azure-pipelines.deploy.yaml

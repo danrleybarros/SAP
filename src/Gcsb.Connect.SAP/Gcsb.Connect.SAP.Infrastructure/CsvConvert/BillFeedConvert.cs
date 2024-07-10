@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Gcsb.Connect.SAP.Domain.JSDN;
+using TinyCsvParser;
+
+namespace Gcsb.Connect.SAP.Infrastructure.CsvConvert
+{
+    public class BillFeedConvert : Application.Repositories.DocFeed.IBillFeedConvertRepository
+    {
+        public ICollection<BillFeedDoc> FromCsv(string base64String, Guid IdFile)
+        {
+            var blk = System.Convert.FromBase64String(base64String);
+            var csv = Encoding.Default.GetString(blk);
+            var headerLine = csv.Replace("\r", "").Replace(" ", "").Replace("\"", "") .Split('\n').First().ToLower().Split(',').ToArray();
+            csv = csv.Replace("\n", Environment.NewLine);
+            CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
+            CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
+            CsvParser<BillFeedItem> csvParser = new CsvParser<BillFeedItem>(csvParserOptions, new BillFeedItemCsvMap(headerLine));
+
+            ICollection<BillFeedDoc> coll = csvParser.ReadFromString(csvReaderOptions, csv)
+                .Where(w=> w.Result != null)
+                .Select(r =>
+                    new BillFeedDoc(
+                        IdFile,
+                        r.Result.Sequence,
+                        r.Result.Marketplace,
+                        r.Result.ResellerName,
+                        r.Result.ResellerContactName,
+                        r.Result.ResellerEmailAddress,
+                        r.Result.ResellerPhoneNumber,
+                        r.Result.OrderId,
+                        r.Result.SubscriptionId,
+                        r.Result.Activity,
+                        r.Result.ServiceType,
+                        Util.ConvertDateBill(r.Result.OrderCreationDate),
+                        Util.ConvertDateBill(r.Result.PurchaseDate),
+                        Util.ConvertDateBill(r.Result.ActivationDate),
+                        r.Result.SubscriptionType,
+                        Util.ConvertDateBill(r.Result.TermStartDate),
+                        Util.ConvertDateBill(r.Result.TermEndDate),
+                        r.Result.TermDuration,
+                        Util.ConvertDateBill(r.Result.NextRenewalDate),
+                        r.Result.ServiceCancellationDate,
+                        Util.ConvertDateBill(r.Result.BillFrom),
+                        Util.ConvertDateBill(r.Result.BillTo),
+                        r.Result.CompanyName,
+                        r.Result.CustomerCode,
+                        Util.ConvertDateBill(r.Result.AccountCreationDate),
+                        r.Result.FirstName,
+                        r.Result.LastName,
+                        r.Result.CustomerEmailAddress,
+                        r.Result.CustomerPhoneNumber,
+                        r.Result.BillingStreet,
+                        r.Result.BillingNumber,
+                        r.Result.BillingComplement,
+                        r.Result.BillingNeighbourhood,
+                        r.Result.BillingCity,
+                        r.Result.BillingStateOrProvince,
+                        r.Result.BillingZIPcode.Replace("-", "").PadLeft(8, '0'),
+                        r.Result.BillingCountry,
+                        r.Result.BillingCountryCode,
+                        r.Result.BillingPhoneNumber,
+                        r.Result.MailingStreet,
+                        r.Result.MailingNumber,
+                        r.Result.MailingComplement,
+                        r.Result.MailingNeighbourhood,
+                        r.Result.MailingCity,
+                        r.Result.MailingStateOrProvince,
+                        r.Result.MailingZIPcode.Replace("-", "").PadLeft(8, '0'),
+                        r.Result.MailingCountry,
+                        r.Result.MailingCountryCode,
+                        r.Result.MailingPhoneNumber,
+                        r.Result.CustomerCPF,
+                        r.Result.CustomerCNPJ,
+                        r.Result.CustomerStateRegistration,
+                        Util.ConvertDateBill(r.Result.InvoiceCreationDate),
+                        r.Result.ServiceCode,
+                        Util.ConvertDateBill(r.Result.DueDate),
+                        r.Result.StoreCode,
+                        r.Result.MarketplaceCity,
+                        r.Result.MarketplaceState,
+                        r.Result.UserAccountStatus,
+                        r.Result.Premeditateddefaulter,
+                        r.Result.ServiceName,
+                        r.Result.OfferName,
+                        r.Result.OfferCode,
+                        r.Result.SalesReferenceCode,
+                        r.Result.UnitOfMeasure,
+                        r.Result.Qty,
+                        r.Result.ProRateScale,
+                        r.Result.RetailUnitPrice,
+                        r.Result.ProRatedRetailPriceUnitPrice,
+                        r.Result.GrossRetailPrice,
+                        r.Result.RetailPriceDiscount,
+                        r.Result.ProRatedRetailUnitDiscountedPriceAmount,
+                        r.Result.TotalRetailPriceDiscountAmount,
+                        r.Result.TotalRetailPrice,
+                        r.Result.TaxOnTotalRetailPrice,
+                        r.Result.GrandTotalRetailPrice,
+                        r.Result.PromotionCode,
+                        r.Result.PromotionDuration,
+                        r.Result.WholesaleUnitPrice,
+                        r.Result.ProRatedWholesaleUnitPrice,
+                        r.Result.CustomerTransactionCurrency,
+                        r.Result.VendorCurrency,
+                        r.Result.GrossWholesalePrice,
+                        r.Result.WholesalePriceDiscount,
+                        r.Result.ProRatedWholesaleUnitDiscountedPriceAmount,
+                        r.Result.TotalWholesalePriceDiscountAmount,
+                        r.Result.TotalWholesalePrice,
+                        r.Result.TaxOnTotalWholesalePrice,
+                        r.Result.GrandTotalWholesalePrice,
+                        r.Result.VendorName,
+                        r.Result.VendorUnitPrice,
+                        r.Result.ProRatedVendorUnitPrice,
+                        r.Result.TotalVendorPrice,
+                        r.Result.TaxOnTotalVendorPrice,
+                        r.Result.GrandTotalVendorPrice,
+                        r.Result.BillingCycle,
+                        r.Result.ProrateType,
+                        r.Result.ProrateOnCancellation,
+                        r.Result.UsageAttributes,
+                        r.Result.PaymentMethod,
+                        r.Result.PaymentStatus,
+                        r.Result.RefundType,
+                        r.Result.RefundAmount,
+                        r.Result.InvoiceNumber,
+                        r.Result.ResourceId,
+                        r.Result.ChargeType,
+                        r.Result.InvoiceStatus,
+                        r.Result.IndividualInvoice,
+                        r.Result.TaxRateISS,
+                        r.Result.TotalTaxISS,
+                        r.Result.TaxRateCOFINS,
+                        r.Result.TotalTaxCOFINS,
+                        r.Result.TaxRatePIS,
+                        r.Result.TotalTaxPIS,
+                        r.Result.TotalInvoicePrice,
+                        r.Result.CustomerAcronym,
+                        r.Result.Segment,
+                        Util.ConvertDateBill(r.Result.CycleCode),
+                        Util.ConvertDateBill(r.Result.CycleReference),
+                        r.Result.FinancialStatus,
+                        r.Result.CommentsCredited,
+                        r.Result.Receivable,
+                        r.Result.CpfUserHasMadeCredit,
+                        r.Result.ProposalNumber,
+                        r.Result.AdabasCode,
+                        r.Result.OpportunityId,
+                        r.Result.QuoteId,
+                        r.Result.StoreAcronym,
+                        r.Result.TotalRetailPriceWithTaxesWithoutDiscount,
+                        r.Result.AffiliateCode,
+                        r.Result.ServiceProviderCompanyName,
+                        r.Result.CNPJServiceProviderCompany,
+                        r.Result.StoreAcronymServiceProvider)).ToList();
+
+            return coll;
+        }
+    }
+}

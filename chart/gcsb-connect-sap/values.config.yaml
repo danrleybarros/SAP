@@ -1,0 +1,106 @@
+apiconfig:    
+  image:
+    tag: {{Build.BuildId}}
+  secretsBase:
+    - {{ENVNAME}}-sec-db
+    - {{ENVNAME}}-sec-jsdn
+    - {{ENVNAME}}-sec-token
+    - {{ENVNAME}}-sec-rabbitmq
+  env:   
+   - name: DEST_LOCAL_PATH
+     value: {{DEST_LOCAL_PATH}}   
+
+  ingress:
+    annotations: 
+      konghq.com/plugins: {{ENVNAME}}-plg-ratelimit,{{ENVNAME}}-plg-cors
+      
+movefile:    
+  image:
+    tag: {{Build.BuildId}}
+  secretsBase:
+    - {{ENVNAME}}-sec-db
+    - {{ENVNAME}}-sec-jsdn
+    - {{ENVNAME}}-sec-rabbitmq
+  env:
+    - name: SFTP_MOCK
+      value: "{{SFTP_MOCK}}"  
+    - name: INTERFACES
+      value: {{INTERFACES}}  
+    - name: PROCESS_LOCAL_PATH
+      value: {{PROCESS_LOCAL_PATH}}    
+
+readfile:    
+  image:
+    tag: {{Build.BuildId}}
+  secretsBase:
+    - {{ENVNAME}}-sec-db
+    - {{ENVNAME}}-sec-jsdn
+    - {{ENVNAME}}-sec-token
+    - {{ENVNAME}}-sec-rabbitmq
+  env:
+   - name: DEST_LOCAL_PATH
+     value: {{DEST_LOCAL_PATH}} 
+   - name: BILL_MAX_DATE
+     value: "{{BILL_MAX_DATE}}"    
+   - name: NOT_EXEC_CRITICALS
+     value: "{{NOT_EXEC_CRITICALS}}"     
+   - name: FINANCIAL_ACCOUNTS_API  
+     value: {{FINANCIAL_ACCOUNTS_API}}
+  
+writefile:    
+  image:
+    tag: {{Build.BuildId}}
+  secretsBase:
+    - {{ENVNAME}}-sec-db
+    - {{ENVNAME}}-sec-jsdn
+    - {{ENVNAME}}-sec-token
+    - {{ENVNAME}}-sec-rabbitmq
+  env:
+    - name: TIME_JOB_FAT57
+      value: {{TIME_JOB_FAT57}}
+    - name: TIME_JOB_Lei1601
+      value: {{TIME_JOB_Lei1601}}
+    - name: DAYS_DELETE_OLD_LEI_FILES
+      value: "{{DAYS_DELETE_OLD_LEI_FILES}}"   
+    - name: DEST_LOCAL_PATH
+      value: {{DEST_LOCAL_PATH}}  
+  
+secrets:
+  - name: services
+    type: Opaque
+    stringData:  
+      FINES_API: {{FINES_API}}
+      DNE_URLV1: {{DNE_URLV1}}
+      FTP_NF: '{{FTP_NF}}'
+      API_GW_URL: {{API_GW_URL}}
+      TOKEN_GW_URL: {{TOKEN_GW_URL}}
+      JSDN_URLV1: {{JSDN_URLV1}}   
+      BASE_URI_AUTH: {{BASE_URI_AUTH}}   
+
+  - name: sftp
+    type: Opaque
+    stringData:
+      SFTP_HOST: "gcsb.connect.fakesftp"
+      SFTP_PORT: '22'
+      SFTP_USER: foo
+      SFTP_PASS: pass
+      SFTP_PATH: /dados/vivo77434/remessa
+      
+resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 100m
+    memory: {{MEMORY_MEDIUM}}
+  requests:
+    cpu: 100m
+    memory: {{MEMORY_MEDIUM}}
+
+persistence:
+  name: sap
+  enabled: true
+  storageSize: '5Gi'
+  storageClassName: csi-nas
+  accessModes: ReadWriteMany

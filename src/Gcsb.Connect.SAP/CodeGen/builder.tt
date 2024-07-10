@@ -1,0 +1,282 @@
+﻿<#@ template hostspecific="true" language="C#" debug="true" #>
+<#@ assembly name="EnvDte" #>
+<#@ assembly name="EnvDte80" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="EnvDTE" #> 
+<#@ import namespace="EnvDTE80" #>
+<#
+	//Debugger.Launch();
+	var namespaceOfBuilders = "Tests";
+	var project = GetProjectContainingFile("DomainException.cs");
+	var dtoTypes = GetClassesOf(project).Where(c => c.Name.EndsWith("InvoicePayment")).ToList();	
+#>
+using System;
+using System.Linq;
+
+namespace <#=namespaceOfBuilders #>
+{
+    public class Build
+    {
+		<# 
+		PushIndent("\t");
+		foreach(var dtoType in dtoTypes)
+		{
+			PushIndent("\t");
+			#>public static <#= dtoType.Name #>Builder <#= dtoType.Name #> { get { return new <#= dtoType.Name #>Builder(); } }
+<#
+			PopIndent();
+		}
+		PopIndent();
+		#>
+    }
+
+	public abstract class Builder<TDomain>
+    {
+        protected TDomain tdomain;
+
+        public Builder()
+        {
+            Defaults();			
+        }
+
+		protected virtual void Defaults() {
+        }
+        
+        public TDomain Build()
+        {
+            return tdomain;
+        }
+    }
+	<# 
+	foreach(var dtoType in dtoTypes)
+	{
+		#>
+
+	public partial class <#= dtoType.Name #>Builder : Builder<<#= dtoType.Namespace.Name #>.<#= dtoType.Name #>>
+	{
+		public <#= dtoType.Name #>Builder()
+		{
+			Defaults();
+		}
+
+		#region Properties
+		<#foreach(var property in FindProperties(dtoType.Members)) {#>	
+		public <#=property.Type.AsFullName #> <#=property.Name #>; <# } /* foreach */#>
+		
+		#endregion
+
+		#region With Methods
+		<#foreach(var property in FindProperties(dtoType.Members)) {#>
+
+		public <#= dtoType.Name #>Builder With<#=property.Name #>(<#=property.Type.AsFullName #> <#=property.Name.ToLower() #>)
+		{
+			<#=property.Name #> = <#=property.Name.ToLower() #>;
+			return this;
+		}
+		<#
+			// If property is type of DTO then let's add With-method supporting nested building.
+			if(dtoTypes.Any(dt => dt.Namespace.Name + "." + dt.Name == property.Type.AsFullName))
+			{
+				var builderType = property.Type.AsFullName.Substring(property.Type.AsFullName.LastIndexOf('.') + 1);
+				#>
+
+		public <#= dtoType.Name #>Builder With<#=property.Name #>(Action<<#=builderType #>Builder> <#=property.Name.ToLower() #>Builder)
+		{
+			var b = new <#=builderType #>Builder();
+			<#=property.Name.ToLower() #>Builder.Invoke(b);
+			<#=property.Name #> = b.Build();
+			return this;
+		}
+		<#
+
+			} /* if */
+		#><#
+			// If property is List type then let's add With-method with params support
+			if(property.Type.AsFullName.StartsWith("System.Collections.Generic.List"))
+			{
+				#>	
+		public <#= dtoType.Name #>Builder With<#=property.Name #>(params <#=GetListedType(property) #>[] <#=property.Name.ToLower() #>)
+			{
+				<#=property.Name #> = <#=property.Name.ToLower() #>.ToList();
+				return this;
+			}
+		<#
+			} /* if */
+			
+			// If property is List type then let's add With-method with params support
+			if(property.Type.AsFullName.StartsWith("System.Collections.Generic.List"))
+			{
+				var builderType = GetListedType(property).Substring(GetListedType(property).LastIndexOf('.') + 1);
+
+				#>	
+		public <#= dtoType.Name #>Builder With<#=property.Name #>(params Action<<#=builderType #>Builder>[] builders)
+		{
+			var <#=property.Name.ToLower() #> = new <#=property.Type.AsFullName #>();
+
+			foreach(var builder in builders)
+			{
+				var b = new <#=builderType #>Builder();
+				builder.Invoke(b);
+				<#=property.Name.ToLower() #>.Add(b.Build());
+			}
+
+			<#=property.Name #>  = <#=property.Name.ToLower() #>;
+
+			return this;
+		}
+		<#
+			} /* if */
+		} /* foreach */#>
+		#endregion
+	
+		#region Build
+		public new <#= dtoType.Namespace.Name #>.<#= dtoType.Name #> Build()
+		{
+			return new <#= dtoType.Namespace.Name #>.<#= dtoType.Name #>(
+			<# var list = FindProperties(dtoType.Members);
+			for(var i = 0; i < list.Count; i++)
+			{ #>
+			<#= list[i].Name #><#=list.Count - 1 == i ? ");": "," #>
+			<#}#>
+		}
+		#endregion
+
+		#region Default Methods 
+	    public new void Defaults()
+        {
+			<#foreach(var property in FindAttributes(dtoType.Members).FindAll(p=> p.Required == true)) {#>
+			<#if (property.CodeProperty.Type.AsFullName == "System.Int32") {#>
+			<#= property.CodeProperty.Name #> = 1;
+			<#} else if (property.CodeProperty.Type.AsFullName == "System.DateTime") {#>
+			<#= property.CodeProperty.Name #> = DateTime.UtcNow;
+			<#} else if (property.CodeProperty.Type.AsFullName == "System.Guid") {#>
+			<#= property.CodeProperty.Name #> = Guid.NewGuid();
+			<#} else if (property.CodeProperty.Type.AsFullName == "System.String") {#>
+			/*** maxlength : <#=property.MaxLength.ToString()#> ****/
+			<#
+			string textmax = string.Empty;
+			while (textmax.Length < property.MaxLength)
+					textmax += "A";
+			#>
+			<#= property.CodeProperty.Name #> = "<#= textmax #>";
+			<#
+			} /* if */
+			} /* foreach */#>
+        }
+		#endregion
+	}
+<#}#>}
+<#+
+	public List<EnvDTE.ProjectItem> GetProjectItemsRecursively(EnvDTE.ProjectItems items)
+	{
+		var ret = new List<EnvDTE.ProjectItem>();
+		
+		if (items == null) return ret;
+		
+		foreach(EnvDTE.ProjectItem item in items)
+		{
+			ret.Add(item);
+			ret.AddRange(GetProjectItemsRecursively(item.ProjectItems));
+		}
+		
+		return ret;
+	}
+
+	public string GetListedType(EnvDTE.CodeProperty property)
+    {
+		return property.Type.AsFullName.Replace("System.Collections.Generic.List<", "").Replace(">","");
+    }
+
+	public EnvDTE.Project GetProjectContainingFile(string filename)
+    {
+		var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+		return visualStudio.Solution.FindProjectItem(filename).ContainingProject as EnvDTE.Project;
+	}
+
+	public List<EnvDTE.CodeClass> GetClassesOf(EnvDTE.Project project)
+	{
+		var items = GetProjectItemsRecursively(project.ProjectItems);
+
+		var classes = new List<EnvDTE.CodeClass>();
+
+		foreach(var item in items)
+        {
+			if(item.FileCodeModel != null)
+            {
+				foreach (EnvDTE.CodeElement element in item.FileCodeModel.CodeElements)
+				{
+					if (element is EnvDTE.CodeNamespace)
+					{
+						EnvDTE.CodeNamespace ns = (EnvDTE.CodeNamespace)element;
+					
+						foreach (EnvDTE.CodeElement elem in ns.Members)
+						{
+							if (elem is EnvDTE.CodeClass)
+							{
+								classes.Add(elem as EnvDTE.CodeClass);
+							}
+						}
+					}
+				}
+            }
+        }
+
+		return classes;
+	}
+
+	public List<EnvDTE.CodeProperty> FindProperties(EnvDTE.CodeElements elements)
+    {
+        List<EnvDTE.CodeProperty> properties = new List<EnvDTE.CodeProperty>();
+        
+        foreach (EnvDTE.CodeElement element in elements)
+        {
+            EnvDTE.CodeProperty p = element as EnvDTE.CodeProperty;
+        
+            if (p != null)
+                properties.Add(p);            
+        }
+    
+        return properties;
+    }
+
+	public List<AttributeProperty> FindAttributes(EnvDTE.CodeElements elements)
+    {
+        List<AttributeProperty> properties = new List<AttributeProperty>();
+		
+        foreach (CodeProperty property in FindProperties(elements))
+        {
+            AttributeProperty att = new AttributeProperty();
+
+            var attributeReq = property.Attributes.Cast<CodeAttribute>().Where(a=>a.Name=="Required").FirstOrDefault();
+            if(attributeReq != null)
+                att.Required = true;
+
+            var attribute = property.Attributes.Cast<CodeAttribute>().Where(a=>a.Name=="MaxLength").FirstOrDefault();
+            if(attribute != null)
+                att.MaxLength = int.Parse(attribute.Value);
+            
+            att.CodeProperty = property;
+            
+            properties.Add(att);            
+        }
+        return properties;
+    }
+
+    public class AttributeProperty
+    {
+        public bool Required {get; set;}
+        public int MaxLength {get;set;}
+        public CodeProperty CodeProperty {get;set;}
+
+        public AttributeProperty()
+        {
+            Required = false;
+            MaxLength = 0;
+        }
+    }
+	#>

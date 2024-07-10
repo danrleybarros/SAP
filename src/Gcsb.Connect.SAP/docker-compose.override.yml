@@ -1,0 +1,221 @@
+version: '3.7'
+
+
+services:
+
+#DATABASE
+  gcsb.connect.jsdnintdb:
+    image: postgres 
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./dockerfiles/db/DigitalCertificateDatabase.sql:/docker-entrypoint-initdb.d/DigitalCertificateDatabase.sql      
+      - ./dockerfiles/db/Pay.sql:/docker-entrypoint-initdb.d/Pay.sql 
+    networks:
+      - gcsb.connect.vivo
+      
+#FAKE SFTP
+  gcsb.connect.fakesftp:
+    image: atmoz/sftp    
+    volumes:
+#      - ./dockerfiles/SFTPMock/mykeys/ssh_host_rsa_key.pub:/home/foo/.ssh/keys/ssh_host_rsa_key.pub:ro
+      - ./dockerfiles/SFTPMock/share/returnnf:/home/foo/dados/
+#      - sftpShareFolder:/home/foo/share          
+    ports:
+      - "2222:22"
+    command: foo:pass:1001    
+    networks:
+      - gcsb.connect.vivo
+
+##RabbitMQ
+  gcsbconnect-messaging-rabbitmq:
+    image: gcsbconnect-rabbitmq
+    build:
+      context: .
+      dockerfile: ./RabbitMq.Dockerfile
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+    networks:
+      - gcsb.connect.vivo
+
+## MoveFileJSDN
+  gcsbconnect-intsap-movefilejsdn:
+    image: gcsbconnect-intsap-movefilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.MoveJsdnFile/Dockerfile
+    volumes:
+      - ./dockerfiles/SFTPMock/share/bill:/app/sap/bill
+      - ./dockerfiles/OutPut:/app/sap/output    
+      - ./dockerfiles/SFTPMock/share:/local
+      - ./dockerfiles/ProcessFile/:/app/sap/processfile
+      - ./dockerfiles/SFTPMock/share/returnnf/:/dados
+    environment:      
+      SAP_INT_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      SFTP_HOST: "gcsb.connect.fakesftp" #"sftp.nfeplace.com.br"
+      SFTP_PORT: 22
+      SFTP_USER: foo
+      SFTP_PASS: pass
+      SFTP_PATH: /dados/vivo77434/remessa     
+      SOURCE_REMOTE_PATH: /share
+      SOURCE_LOCAL_PATH: /local
+      INTERFACES: "RETURNNF" #"RETURNNF"/"BILL"/"PAYMENT"/"PAYMENTBOLETO"/"ALL"
+      DEST_LOCAL_PATH: /app/sap/output
+      PROCESS_LOCAL_PATH: /app/sap/processfile
+      TIME_JOB: "10"
+      HANGFIREDB_CONN: "Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;"
+      RABBITMQ_HOST: gcsbconnect-messaging-rabbitmq
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      POSTGRES_LOG_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      LOG_TABLE_NAME: "saplog"
+      LOG_SCHEMA: "log"
+      DEBUG: "true"
+      SFTP_MOCK: "false"
+      SFTP_LOCAL_PATH: "/app/sap/ftpdata/"  
+    depends_on:
+      - gcsb.connect.jsdnintdb
+      - gcsb.connect.fakesftp
+
+  gcsbconnect-intsap-readfilejsdn:
+    image: gcsbconnect-intsap-readfilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.ReadJsdnFile/Dockerfile
+    environment:       
+      SAP_INT_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      RABBITMQ_HOST: gcsbconnect-messaging-rabbitmq
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      FINES_API: "https://int-dev-3.vivoplataformadigital.com.br/fines/api/BillFeedProcessed/SendProcessedBillFeedFileName"
+      DEST_LOCAL_PATH: /app/sap/output/
+      DNE_URLV1: "https://int-dev-3.vivoplataformadigital.com.br/dne/api/Dne"      
+      API_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/pay"
+      FINANCIAL_ACCOUNTS_API: "https://int-dev-3.vivoplataformadigital.com.br/financialaccounts"
+      BILL_MAX_DATE: "26"
+      TOKEN_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/token/api/v2?api-version=2"
+      MARKETPLACE_URL: " https://admin-dev-3.vivoplataformadigital.com.br"
+      MARKETPLACE: "targettelefonica"
+      MARKETPLACE_USER: "admin-api.jamcracker.com"
+      MARKETPLACE_PASS: "Global@12345" 
+      JSDN_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      JSDN_SCHEMA: "public"     
+      POSTGRES_LOG_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres      
+      CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+    volumes:
+      - ./dockerfiles/OutPut:/app/sap/output
+      - ./dockerfiles/ProcessFile/:/app/sap/processfile
+    depends_on:
+      - gcsb.connect.jsdnintdb
+      - gcsb.connect.fakesftp
+      - gcsbconnect-messaging-rabbitmq
+
+  gcsbconnect-intsap-writefilejsdn:
+    image: gcsbconnect-intsap-writefilejsdn
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.WriteJsdnFile/Dockerfile
+    volumes:
+      - ./dockerfiles/OutPut:/app/sap/OutputFiles
+      - ./dockerfiles/ProcessFile/:/app/sap/processfile
+    environment:      
+      SAP_INT_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      RABBITMQ_HOST: gcsbconnect-messaging-rabbitmq
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      FINES_API: "https://int-dev-3.vivoplataformadigital.com.br/fines/api/BillFeedProcessed/SendProcessedBillFeedFileName"
+      DEST_LOCAL_PATH: /app/sap/OutputFiles/   
+      EMAIL_NFE: nfe.prefeituras.br@telefonica.com|nfe.digital.br@telefonica.com
+      SFTP_HOST: sftp.nfeplace.com.br
+      SFTP_PORT: 2222
+      SFTP_USER: '02558157013574'
+      SFTP_PASS: sftp02558157013574
+      SFTP_PATH: /dados/vivo77434/remessa
+      DNE_URLV1: "https://int-dev-3.vivoplataformadigital.com.br/dne/api/Dne"
+      FTP_NF: "false"
+      API_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/pay"
+      FINANCIAL_ACCOUNTS_API: "https://int-dev-3.vivoplataformadigital.com.br/financialaccounts"
+      BILL_MAX_DATE: "26"
+      TOKEN_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/token/api/v2?api-version=2"
+      MARKETPLACE_URL: "https://admin-dev_3.vivoplataformadigital.com.br"
+      MARKETPLACE: "targettelefonica"
+      MARKETPLACE_USER: "admin-api.jamcracker.com"
+      MARKETPLACE_PASS: "Global@12345" 
+      JSDN_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      JSDN_SCHEMA: "vivouat_report"
+      TIME_JOB_FAT57: "21;00;00"
+      TIME_JOB_Lei1601: "21;00;01"
+      POSTGRES_LOG_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres
+      DAYS_DELETE_OLD_LEI_FILES: 90
+      CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+    networks:
+      - gcsb.connect.vivo
+    depends_on:
+      - gcsb.connect.jsdnintdb
+      - gcsb.connect.fakesftp
+       
+#Web API
+  gcsbconnect-intsap-apiconfig:
+    image: gcsbconnect-intsap-apiconfig
+    build:
+      context: .
+      dockerfile: ./Gcsb.Connect.SAP.WebApi.Config/Dockerfile
+    volumes:
+      - ./dockerfiles/OutPut:/app/sap/OutputFiles
+      - ./dockerfiles/ProcessFile/:/app/sap/processfile 
+    environment:      
+      SAP_INT_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      HANGFIREDB_CONN: "Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;"
+      JSDN_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      JSDN_SCHEMA: "vivouat_report"
+      JSDN_URLV1: "https://admin-dev-3.vivoplataformadigital.com.br/api/1.0"
+      DNE_URLV1: "https://int-dev-3.vivoplataformadigital.com.br/dne/api/Dne"
+      ENV: "UAT"
+      ALLOWED_HOSTS: "localhost"
+      ##JWT_KEY: "b508f4f3-1f2b-4261-a60a-121b696be82a" ## qa
+      ##JWT_KEY: "16e9714a-20d9-4304-8751-14decaa8e965" ## Release
+      ##JWT_KEY: "2d3be888-2528-4846-9bd9-2ef9c6323f2f" ## UAT  
+      JWT_KEY: "b508f4f3-1f2b-4261-a60a-121b696be82a" ## DEV3
+      ##JWT_KEY: "84872b9c-33ec-4fd1-9feb-0e7204b0b741" ##QA3
+      ##JWT_KEY: "10fe6a38-a57b-4718-a4a5-3086ea5cc0e4" ## Staging
+      USER_PERMISSIONS: "Financeiro|Fraude|Produtos|BKO Contas|Adm Vendas|Suporte TI GW|Suporte Tecnico|Marketplace Admin"
+      POSTGRES_LOG_CONN: Server=gcsb.connect.jsdnintdb;Port=5432;Database=postgres;User Id=postgres;Password=postgres;
+      LOG_TABLE_NAME: "saplog"
+      LOG_SCHEMA: "log"
+      API_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/pay"
+      FINANCIAL_ACCOUNTS_API: "https://int-dev-3.vivoplataformadigital.com.br/financialaccounts"
+      BILL_MAX_DATE: "26"
+      TOKEN_GW_URL: "https://int-dev-3.vivoplataformadigital.com.br/token/api/v2?api-version=2"
+      MARKETPLACE_URL: "https://admin-dev_3.vivoplataformadigital.com.br"
+      MARKETPLACE: "targettelefonica"
+      MARKETPLACE_USER: "admin-api.jamcracker.com"
+      MARKETPLACE_PASS: "Global@12345"
+      RABBITMQ_HOST: gcsbconnect-messaging-rabbitmq
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      DEST_LOCAL_PATH: /app/sap/OutputFiles/
+      BASE_URI_AUTH: "https://int-dev-3.vivoplataformadigital.com.br"
+    ports:
+      - 8072:80
+    networks:
+      - gcsb.connect.vivo
+    extra_hosts:
+      - "preqa-admtelefonica.gcsb.com.br:200.229.197.132"
+
+volumes:
+  pgdata:  

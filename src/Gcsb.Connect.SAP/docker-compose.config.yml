@@ -1,0 +1,201 @@
+version: '3.7'
+
+services:
+
+## GetFileJSDN
+  gcsbconnect-intsap-movefilejsdn:
+    image: acrvivo.azurecr.io/gcsbconnect-intsap-movefilejsdn:{Build.BuildId}
+    volumes:
+      - {SAP_OUTPUT}:/app/sap/output  
+      - {SAP_BILL_FOLDER}:/app/sap/bill
+      - {SAP_PAY_FOLDER}:/app/sap/pay
+      - {SAP_PAYBOLETO_FOLDER}:/app/sap/payboleto
+      - {SAP_PROCESS_FOLDER}:/app/sap/processfile    
+    environment:      
+      SAP_INT_CONN: {SAP_INT_CONN}      
+      SFTP_HOST: {SFTP_HOST} 
+      SFTP_PORT: {SFTP_PORT}
+      SFTP_USER: {SFTP_USER}
+      SFTP_PASS: {SFTP_PASS}
+      SFTP_PATH: {SFTP_PATH}
+      PROCESS_LOCAL_PATH: {PROCESS_LOCAL_PATH}
+      POSTGRES_LOG_CONN: {POSTGRES_LOG_CONN}
+      TIME_JOB: {TIME_JOB} 
+      HANGFIREDB_CONN: {HANGFIREDB_CONN} 
+      INTERFACES: "ALL"
+      RABBITMQ_HOST: {RABBITMQ_HOST}
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: {RABBITMQ_USER} 
+      RABBITMQ_PASS: {RABBITMQ_PASS} 
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: {CPU_HIGH}
+          memory: {MEMORY_HIGH}
+      placement: 
+        constraints:
+          - node.labels.sap == true
+      update_config:
+        order: start-first
+    networks:
+      - gcsb.connect.vivo
+
+  gcsbconnect-intsap-readfilejsdn:
+    image: acrvivo.azurecr.io/gcsbconnect-intsap-readfilejsdn:{Build.BuildId}
+    environment:      
+      SAP_INT_CONN: {SAP_INT_CONN}
+      RABBITMQ_HOST: {RABBITMQ_HOST}
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: {RABBITMQ_USER} 
+      RABBITMQ_PASS: {RABBITMQ_PASS}      
+      DEST_LOCAL_PATH: /app/sap/output/      
+      DNE_URLV1: {DNE_URLV1}      
+      API_GW_URL: {API_GW_URL}
+      FINANCIAL_ACCOUNTS_API: {FINANCIAL_ACCOUNTS_API}
+      BILL_MAX_DATE: {BILL_MAX_DATE}
+      FINES_API: {FINES_API}
+      TOKEN_GW_URL: {TOKEN_GW_URL}
+      MARKETPLACE_URL: {MARKETPLACE_URL}
+      MARKETPLACE: {MARKETPLACE}
+      MARKETPLACE_USER: {MARKETPLACE_USER}
+      MARKETPLACE_PASS: {MARKETPLACE_PASS}
+      JSDN_CONN: {JSDN_CONN}
+      JSDN_SCHEMA: public
+      NOT_EXEC_CRITICALS: {NOT_EXEC_CRITICALS}            
+      POSTGRES_LOG_CONN: {POSTGRES_LOG_CONN}      
+      CONN: {CONN}
+    volumes:
+      - {SAP_OUTPUT}:/app/sap/output
+      - {SAP_PROCESS_FOLDER}:/app/sap/processfile
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: {CPU_HIGH}
+          memory: {MEMORY_HIGH}
+      placement: 
+        constraints:
+          - node.labels.sap == true
+      update_config:
+        order: start-first
+    networks:
+      - gcsb.connect.vivo
+
+  gcsbconnect-intsap-writefilejsdn:
+    image: acrvivo.azurecr.io/gcsbconnect-intsap-writefilejsdn:{Build.BuildId}
+    environment:      
+      SAP_INT_CONN: {SAP_INT_CONN}
+      RABBITMQ_HOST: {RABBITMQ_HOST}
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: {RABBITMQ_USER} 
+      RABBITMQ_PASS: {RABBITMQ_PASS} 
+      DEST_LOCAL_PATH: /app/sap/OutputFiles/   
+      EMAIL_NFE:    {EMAIL_NFE}
+      SFTP_HOST: {SFTP_HOST}
+      SFTP_PORT: {SFTP_PORT}
+      SFTP_USER: {SFTP_USER}
+      SFTP_PASS: {SFTP_PASS}
+      SFTP_PATH: {SFTP_PATH}
+      DNE_URLV1: {DNE_URLV1}
+      FTP_NF: {FTP_NF}
+      API_GW_URL: {API_GW_URL}
+      FINANCIAL_ACCOUNTS_API: {FINANCIAL_ACCOUNTS_API}
+      BILL_MAX_DATE: {BILL_MAX_DATE}
+      FINES_API: {FINES_API}
+      TOKEN_GW_URL: {TOKEN_GW_URL}
+      MARKETPLACE_URL: {MARKETPLACE_URL}
+      MARKETPLACE: {MARKETPLACE}
+      MARKETPLACE_USER: {MARKETPLACE_USER}
+      MARKETPLACE_PASS: {MARKETPLACE_PASS}
+      JSDN_CONN: {JSDN_CONN}
+      JSDN_SCHEMA: {JSDN_SCHEMA}
+      NOT_EXEC_CRITICALS: {NOT_EXEC_CRITICALS}
+      TIME_JOB_FAT57: {TIME_JOB_FAT57}
+      TIME_JOB_Lei1601: {TIME_JOB_Lei1601}
+      POSTGRES_LOG_CONN: {POSTGRES_LOG_CONN}
+      DAYS_DELETE_OLD_LEI_FILES: {DAYS_DELETE_OLD_LEI_FILES}
+      CONN: {CONN}
+    volumes:
+      - {SAP_OUTPUT}:/app/sap/OutputFiles
+      - {SAP_PROCESS_FOLDER}:/app/sap/processfile
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: {CPU_HIGH}
+          memory: {MEMORY_HIGH}
+      placement: 
+        constraints:
+          - node.labels.sap == true
+      update_config:
+        order: start-first
+    networks:
+      - gcsb.connect.vivo
+
+      
+#Web API
+
+  gcsbconnect-intsap-apiconfig:
+    image: acrvivo.azurecr.io/gcsbconnect-intsap-apiconfig:{Build.BuildId}
+    environment:      
+      SAP_INT_CONN: {SAP_INT_CONN}
+      JSDN_URLV1: {JSDN_URLV1}
+      JSDN_CONN: {JSDN_CONN}
+      JSDN_SCHEMA: {JSDN_SCHEMA}
+      DNE_URLV1: {DNE_URLV1}
+      ALLOWED_HOSTS: {ALLOWED_HOSTS}
+      JWT_KEY: {JWT_KEY_API}
+      USER_PERMISSIONS: {USER_PERMISSIONS}
+      POSTGRES_LOG_CONN: {POSTGRES_LOG_CONN}
+      API_GW_URL: {API_GW_URL}
+      FINANCIAL_ACCOUNTS_API: {FINANCIAL_ACCOUNTS_API}
+      BILL_MAX_DATE: {BILL_MAX_DATE}
+      TOKEN_GW_URL: {TOKEN_GW_URL}
+      MARKETPLACE_URL: {MARKETPLACE_URL}
+      MARKETPLACE: {MARKETPLACE}
+      MARKETPLACE_USER: {MARKETPLACE_USER}
+      MARKETPLACE_PASS: {MARKETPLACE_PASS}
+      NOT_EXEC_CRITICALS: {NOT_EXEC_CRITICALS}
+      RABBITMQ_HOST: {RABBITMQ_HOST}
+      RABBITMQ_PATH: /
+      RABBITMQ_USER: {RABBITMQ_USER} 
+      RABBITMQ_PASS: {RABBITMQ_PASS} 
+      DEST_LOCAL_PATH: /app/sap/OutputFiles/
+      BASE_URI_AUTH: {BASE_URI_AUTH}
+    networks:
+      - gcsb.connect.vivo
+    volumes:
+      - {SAP_OUTPUT}:/app/sap/OutputFiles
+      - {SAP_PROCESS_FOLDER}:/app/sap/processfile
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: {CPU_HIGH}
+          memory: {MEMORY_HIGH}
+      placement: 
+        constraints:
+          - node.labels.sap == true
+      update_config:
+        order: start-first
+      labels:
+        - "traefik.http.routers.intsap-apiconfig.rule=PathPrefix(`/int-config`)"
+        - "traefik.http.routers.intsap-apiconfig.service=intsap-apiconfig" # <-----
+        - "traefik.http.routers.intsap-apiconfig.middlewares=intsap-apiconfigMid" # <-----
+        - "traefik.http.services.intsap-apiconfig.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.intsap-apiconfigMid.stripprefix.prefixes=/int-config"
+        - "traefik.docker.lbswarm=true"
+        - "traefik.enable=true"
+        - "traefik.port=80"
+        {TLS_TRAEFIK}      
+
+volumes:
+  pgservers:
+  pgdata:
+  sftpShareFolder:
+
+networks:
+  gcsb.connect.vivo:
+    name: public
+    external: true

@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/Gcsb.Connect.SAP/CodeGen/builder.cs
+/src/Gcsb.Connect.SAP/CodeGen/constructor.cs
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/ARR**
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/FAT**
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/PAS**
+/src/Gcsb.Connect.SAP/dockerfiles/OutPut/Sample_PaymentFeed.tsv
+/src/Gcsb.Connect.SAP/dockerfiles/OutPut/Sample_BillFeed.csv
+/src/Gcsb.Connect.SAP/dockerfiles/OutPut/*
+!/src/Gcsb.Connect.SAP/dockerfiles/OutPut/.gitkeep
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/GW_ITENS_CC_032019.txt
+*.txt
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/EMISSAO-NF-IND-032019.csv
+/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/*
+!/src/Gcsb.Connect.SAP/Gcsb.Connect.SAP.Tests/OutputFiles/.gitkeep
+/.vs/ProjectSettings.json
+/.vs/

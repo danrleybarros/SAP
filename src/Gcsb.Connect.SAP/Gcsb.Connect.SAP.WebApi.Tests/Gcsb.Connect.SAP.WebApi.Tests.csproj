@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cases\Application\SAP\**" />
+    <Compile Remove="Cases\WebApi\**" />
+    <EmbeddedResource Remove="Cases\Application\SAP\**" />
+    <EmbeddedResource Remove="Cases\WebApi\**" />
+    <None Remove="Cases\Application\SAP\**" />
+    <None Remove="Cases\WebApi\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="coverlet.msbuild" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Gcsb.Connect.Messaging" Version="2.0.4-CI-20221109-143225" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Application\Gcsb.Connect.SAP.Application.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Domain\Gcsb.Connect.SAP.Domain.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Infrastructure\Gcsb.Connect.SAP.Infrastructure.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Tests\Gcsb.Connect.SAP.Tests.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.WebApi.Config\Gcsb.Connect.SAP.WebApi.Config.csproj" />
+  </ItemGroup>
+
+</Project>

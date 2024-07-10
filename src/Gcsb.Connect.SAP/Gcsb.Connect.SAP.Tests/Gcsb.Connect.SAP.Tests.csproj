@@ -1,0 +1,155 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Builders\NewFolder1\**" />
+    <EmbeddedResource Remove="Builders\NewFolder1\**" />
+    <None Remove="Builders\NewFolder1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Cases\Application\FATFaturadoRH\iyylnv3h.3q5~" />
+    <None Remove="InputFiles\FAT\Sample_BillFeed_AFaturar.csv" />
+    <None Remove="InputFiles\FAT\Sample_BillFeed_Faturado.csv" />
+    <None Remove="InputFiles\FilesError\Sample_Feed_null.csv" />
+    <None Remove="InputFiles\Sample_BillFeed.csv" />
+    <None Remove="InputFiles\Sample_PaymentBoleto.tsv" />
+    <None Remove="InputFiles\Sample_PaymentBoleto_7-03-2020.tsv" />
+    <None Remove="InputFiles\Sample_PaymentFeed.tsv" />
+    <None Remove="InputFiles\Sample_Feed_teste.csv" />
+    <None Remove="InputFiles\Sample_ReturnNF.csv" />
+    <None Remove="InputFiles\File\placeholder.pdf" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="InputFiles\FAT\Sample_BillFeed_AFaturar.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\FAT\Sample_BillFeed_Faturado.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\FilesError\Sample_Feed_null.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\Sample_PaymentFeed.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\File\placeholder.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="InputFiles\Sample_BillFeed.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="InputFiles\Sample_ReturnNF.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="InputFiles\Sample_PaymentBoleto_7-03-2020.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputFiles\Sample_PaymentBoleto.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="coverlet.msbuild" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Gcsb.Connect.Messaging" Version="2.0.4-CI-20221109-143225" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.18.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.frameworks.autofac" Version="0.1.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Builders\Config\FinancialAccount\" />
+    <Folder Include="Cases\Application\ARR\ARRCREDITCARDINTER\Handler\" />
+    <Folder Include="Cases\Application\SAP\" />
+    <Folder Include="Cases\Domain\Config\FinancialAccount\" />
+    <Folder Include="Gcsb\Connect\SAP\Domain\Config\" />
+    <Folder Include="OutputFiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Application\Gcsb.Connect.SAP.Application.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Domain\Gcsb.Connect.SAP.Domain.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Infrastructure\Gcsb.Connect.SAP.Infrastructure.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.WebApi.Config\Gcsb.Connect.SAP.WebApi.Config.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Builders\GF\IndividualReportServiceBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Builders\GF\SpecialRegimeBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Builders\JSDN\PaymentCreditCardBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Builders\PAY\InvoicePaymentBuilder.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="InputFiles\Sample_BillFeed_1-7-2019.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="InputFiles\Sample_PaymentFeed_7-3-2020.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\getAccountDetailsByService.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\GetAllInterestAndFineFinancialAccount.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\GetAllManagementFinancialAccount.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

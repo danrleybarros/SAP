@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Gcsb.Connect.SAP.MoveJsdnFile</AssemblyName>
+    <RootNamespace>Gcsb.Connect.SAP.MoveJsdnFile</RootNamespace>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>Gcsb.Connect.SAP.MoveJsdnFile.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>Gcsb.Connect.SAP.MoveJsdnFile.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DownloadFiles\**" />
+    <Compile Remove="SFTPMock\**" />
+    <EmbeddedResource Remove="DownloadFiles\**" />
+    <EmbeddedResource Remove="SFTPMock\**" />
+    <None Remove="DownloadFiles\**" />
+    <None Remove="SFTPMock\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="interfaces.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="FluentScheduler" Version="5.3.0" />
+    <PackageReference Include="Gcsb.Connect.Messaging" Version="2.0.4-CI-20221109-143225" />
+    <PackageReference Include="MassTransit" Version="6.2.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="SecurityCodeScan" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog" Version="2.11.0" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Application\Gcsb.Connect.SAP.Application.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Domain\Gcsb.Connect.SAP.Domain.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.Infrastructure\Gcsb.Connect.SAP.Infrastructure.csproj" />
+    <ProjectReference Include="..\Gcsb.Connect.SAP.ReadJsdnFile\Gcsb.Connect.SAP.ReadJsdnFile.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="interfaces.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

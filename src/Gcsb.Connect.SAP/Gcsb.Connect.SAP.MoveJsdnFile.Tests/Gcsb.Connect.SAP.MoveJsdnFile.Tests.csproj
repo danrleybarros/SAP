@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="InputFiles\Sample_BillFeed.csv" />
+    <None Remove="SFTPMock\mykeys\ssh_host_rsa_key.key" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="InputFiles\Sample_BillFeed.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SFTPMock\mykeys\ssh_host_rsa_key.key">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gcsb.Connect.Messaging" Version="2.0.4-CI-20221109-143225" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gcsb.Connect.SAP.MoveJsdnFile\Gcsb.Connect.SAP.MoveJsdnFile.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cases\Application\" />
+    <Folder Include="Cases\Repository\" />
+  </ItemGroup>
+
+</Project>

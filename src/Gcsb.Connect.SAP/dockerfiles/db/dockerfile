@@ -1,0 +1,7 @@
+FROM mongo
+
+ENV MONGO_INITDB_ROOT_USERNAME root
+ENV MONGO_INITDB_ROOT_PASSWORD cjEU5GaFKH3i
+ENV MONGO_INITDB_DATABASE logs
+
+ADD blacklist-init.js /docker-entrypoint-initdb.d/

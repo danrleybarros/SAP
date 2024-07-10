@@ -1,0 +1,235 @@
+<#@ template hostspecific="true" language="C#" debug="true" #>
+<#@ assembly name="EnvDte" #>
+<#@ assembly name="EnvDte80" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="EnvDTE" #> 
+<#@ import namespace="EnvDTE80" #>
+
+<#
+	//Debugger.Launch();
+	var namespaceOfTests = "Tests";
+	var project = GetProjectContainingFile("IEntity.cs");
+	var dtoTypes = GetClassesOf(project).Where(c => c.Name.EndsWith("Launch")).ToList();	
+#>
+
+using System;
+using System.Linq;
+using Xunit;
+using <#= namespaceOfTests #>.Builders;
+
+namespace <#= namespaceOfTests #>
+{
+    <#foreach(var dtoType in dtoTypes) {
+        List<AttributeProperty> lstattributes = FindAttributes(dtoType.Members);
+    #>
+	public class <#= dtoType.Name #>DomainTests
+	{
+        #region Create Domain
+        [Fact]
+        [Trait("Action", "Create")]
+        public void ShouldCreate()
+        {
+            var model = new <#= dtoType.Name #>Builder().Build();
+            Assert.True(Util.ValidateModel(model).Count == 0);
+        }
+        #endregion
+
+        #region REQUIREDS AND MAXLENGTH
+        <#foreach(var property in lstattributes.FindAll(p=> p.Required == true && p.MaxLength > 0)) {
+            string textmax = "";
+            while (textmax.Length < property.MaxLength + 1)
+                    textmax += "A";
+        #>
+
+        [Theory]
+        [InlineData("<#=textmax#>")]
+        [InlineData(null)]
+        [InlineData("")]
+        public void TestRequiredAndMaxLength<#= property.CodeProperty.Name #>(<#= property.CodeProperty.Type.AsFullName #> value)
+        {
+            var model = new <#= dtoType.Name #>Builder().With<#= property.CodeProperty.Name #>(value).Build();
+            <#if (property.Truncate) {#>
+            if (value != null && value != "")
+				Assert.True(Util.ValidateModel(model).Count == 0);
+            else 
+				Assert.True(Util.ValidateModel(model).Count > 0);
+			<#} else {#>
+            Assert.True(Util.ValidateModel(model).Count > 0);
+            <#} /* if */#>
+        }
+        <#
+	    } /* foreach */#>
+        #endregion
+
+        #region REQUIREDS
+        <#foreach(var property in lstattributes.FindAll(p=>p.Required == true && p.MaxLength == 0)) {#>
+        
+        [Theory]
+        [Trait("Action", "None")]
+	    <#if (property.CodeProperty.Type.AsFullName == "System.Int32") {#>
+        [InlineData(0)]
+        [InlineData(int.MinValue)]
+        <#} else if (property.CodeProperty.Type.AsFullName == "System.DateTime" || property.CodeProperty.Type.AsFullName == "System.Guid") {#>
+        [InlineData(null)]
+        <#} else {#>
+        [InlineData("")]
+        [InlineData(null)]
+        <#}#>
+        public void TestRequiredNull<#= property.CodeProperty.Name #>(<#= property.CodeProperty.Type.AsFullName #> value)
+        {
+            var model = new <#= dtoType.Name #>Builder().With<#= property.CodeProperty.Name #>(value).Build();
+            Assert.True(Util.ValidateModel(model).Count > 0);
+        }
+        <#
+	    } /* foreach */#>
+        #endregion
+        
+        #region MAX LENGTH
+        <#foreach(var property in lstattributes.FindAll(p=>p.Required == false && p.MaxLength > 0)) {
+            string textmax = "";
+            while (textmax.Length < property.MaxLength + 1)
+                    textmax += "A";
+        #>
+	    
+        [Theory]
+        [Trait("Action", "None")]
+        [InlineData("<#=textmax#>")]
+        <#if (property.Truncate) {#>
+        public void TestMaxLengthTruncate<#= property.CodeProperty.Name #>(string value)
+        <#} else {#>
+        public void TestMaxLength<#= property.CodeProperty.Name #>(string value)
+        <#} /* if */#>
+        {
+            var model = new <#= dtoType.Name #>Builder().With<#= property.CodeProperty.Name #>(value).Build();
+            <#if (property.Truncate) {#>
+            Assert.True(Util.ValidateModel(model).Count == 0);
+            <#} else {#>
+            Assert.True(Util.ValidateModel(model).Count > 0);
+            <#} /* if */#>
+        }
+        <#
+	    } /* foreach */#>
+        #endregion
+    }
+    <#
+    } /* foreach */#>
+}
+
+<#+
+	public List<EnvDTE.ProjectItem> GetProjectItemsRecursively(EnvDTE.ProjectItems items)
+	{
+		var ret = new List<EnvDTE.ProjectItem>();
+		
+		if (items == null) return ret;
+		
+		foreach(EnvDTE.ProjectItem item in items)
+		{
+			ret.Add(item);
+			ret.AddRange(GetProjectItemsRecursively(item.ProjectItems));
+		}
+		
+		return ret;
+	}
+
+	public EnvDTE.Project GetProjectContainingFile(string filename)
+    {
+		var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+		return visualStudio.Solution.FindProjectItem(filename).ContainingProject as EnvDTE.Project;
+	}
+
+	public List<EnvDTE.CodeClass> GetClassesOf(EnvDTE.Project project)
+	{
+		var items = GetProjectItemsRecursively(project.ProjectItems);
+
+		var classes = new List<EnvDTE.CodeClass>();
+
+		foreach(var item in items)
+        {
+			if(item.FileCodeModel != null)
+            {
+				foreach (EnvDTE.CodeElement element in item.FileCodeModel.CodeElements)
+				{
+					if (element is EnvDTE.CodeNamespace)
+					{
+						EnvDTE.CodeNamespace ns = (EnvDTE.CodeNamespace)element;
+					
+						foreach (EnvDTE.CodeElement elem in ns.Members)
+						{
+							if (elem is EnvDTE.CodeClass)
+							{
+								classes.Add(elem as EnvDTE.CodeClass);
+							}
+						}
+					}
+				}
+            }
+        }
+
+		return classes;
+	}
+
+	public List<EnvDTE.CodeProperty> FindProperties(EnvDTE.CodeElements elements)
+    {
+        List<EnvDTE.CodeProperty> properties = new List<EnvDTE.CodeProperty>();
+        
+        foreach (EnvDTE.CodeElement element in elements)
+        {
+            EnvDTE.CodeProperty p = element as EnvDTE.CodeProperty;
+        
+            if (p != null)
+                properties.Add(p);            
+        }
+    
+        return properties;
+    }
+
+    public List<AttributeProperty> FindAttributes(EnvDTE.CodeElements elements)
+    {
+        List<AttributeProperty> properties = new List<AttributeProperty>();
+		
+        foreach (CodeProperty property in FindProperties(elements))
+        {
+            AttributeProperty att = new AttributeProperty();
+
+            var attributeReq = property.Attributes.Cast<CodeAttribute>().Where(a=>a.Name=="Required").FirstOrDefault();
+            if(attributeReq != null)
+                att.Required = true;
+
+            var attribute = property.Attributes.Cast<CodeAttribute>().Where(a=>a.Name=="MaxLength").FirstOrDefault();
+            if(attribute != null)
+                att.MaxLength = int.Parse(attribute.Value);
+
+            var attributetruncate = property.Attributes.Cast<CodeAttribute>().Where(a=>a.Name=="MaxLengthTruncate").FirstOrDefault();
+            if(attributetruncate != null)
+            {
+                att.MaxLength = int.Parse(attributetruncate.Value);
+                att.Truncate = true;
+            }
+
+            att.CodeProperty = property;
+            
+            properties.Add(att);            
+        }
+        return properties;
+    }
+
+    public class AttributeProperty
+    {
+        public bool Required {get; set;}
+        public int MaxLength {get; set;}
+        public bool Truncate { get; set; }
+        public CodeProperty CodeProperty {get;set;}
+
+        public AttributeProperty()
+        {
+            Required = false;
+            Truncate = false;
+            MaxLength = 0;
+        }
+    }
+#>

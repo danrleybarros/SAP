@@ -1,0 +1,242 @@
+[
+  {
+    "id": "e0c321b3-568a-490d-a194-01ab7d880012",
+    "financialAccount": {
+      "storeAcronym": "telerese",
+      "interest": {
+        "financialAccount": "JUROSATRASOPG",
+        "billedCounterchargeChargeback": "JUROSATRASOPG",
+        "grantedDebit": "DEBRESTGW",
+        "interestOrFine": {
+          "credit": "41911992",
+          "debit": "11215115"
+        },
+        "unpaidInvoice": {
+          "credit": "11215115",
+          "debit": "41911992"
+        },
+        "paidInvoice": {
+          "credit": "21152918",
+          "debit": "41911992"
+        },
+        "cycleEstimate": {
+          "credit": "41911992",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41911992",
+          "debit": "21152918"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "11215115",
+          "debit": "11215115"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41911992",
+          "debit": "11215115"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41911992",
+          "debit": "11215115"
+        }
+      },
+      "fine": {
+        "financialAccount": "MULTAATRASOPG",
+        "billedCounterchargeChargeback": "MULTAATRASOPG",
+        "grantedDebit": "DEBRESTGW",
+        "interestOrFine": {
+          "credit": "41951119",
+          "debit": "11215115"
+        },
+        "unpaidInvoice": {
+          "credit": "11215115",
+          "debit": "41951119"
+        },
+        "paidInvoice": {
+          "credit": "21152918",
+          "debit": "41951119"
+        },
+        "cycleEstimate": {
+          "credit": "41951119",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41951119",
+          "debit": "21152918"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "11215115",
+          "debit": "11215115"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41951119",
+          "debit": "11215115"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41951119",
+          "debit": "11215115"
+        }
+      }
+    }
+  },
+  {
+    "id": "590a88f4-d406-496d-9bd0-b8e5c7767f6f",
+    "financialAccount": {
+      "storeAcronym": "IOTCo",
+      "interest": {
+        "financialAccount": "JUROSATRASOPG",
+        "billedCounterchargeChargeback": "JUROSATRASOPG",
+        "grantedDebit": "DEBRESTGW",
+        "interestOrFine": {
+          "credit": "41911992",
+          "debit": "11215115"
+        },
+        "unpaidInvoice": {
+          "credit": "11215115",
+          "debit": "41911992"
+        },
+        "paidInvoice": {
+          "credit": "21152918",
+          "debit": "41911992"
+        },
+        "cycleEstimate": {
+          "credit": "41911992",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41911992",
+          "debit": "21152918"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "11215115",
+          "debit": "11215115"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41911992",
+          "debit": "11215115"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41911992",
+          "debit": "11215115"
+        }
+      },
+      "fine": {
+        "financialAccount": "MULTAATRASOPG",
+        "billedCounterchargeChargeback": "MULTAATRASOPG",
+        "grantedDebit": "DEBRESTGW",
+        "interestOrFine": {
+          "credit": "41951119",
+          "debit": "11215115"
+        },
+        "unpaidInvoice": {
+          "credit": "11215115",
+          "debit": "41951119"
+        },
+        "paidInvoice": {
+          "credit": "21152918",
+          "debit": "41951119"
+        },
+        "cycleEstimate": {
+          "credit": "41951119",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41951119",
+          "debit": "21152918"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "11215115",
+          "debit": "11215115"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41951119",
+          "debit": "11215115"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41951119",
+          "debit": "11215115"
+        }
+      }
+    }
+  },
+  {
+    "id": "ba4b2fdb-c792-411f-99ec-a4bafd170e26",
+    "financialAccount": {
+      "storeAcronym": "CloudCo",
+      "interest": {
+        "financialAccount": "JUROSATRASOPG",
+        "billedCounterchargeChargeback": "JUROSATRASOPG",
+        "grantedDebit": "JUROSATRASOPG",
+        "interestOrFine": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "unpaidInvoice": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "paidInvoice": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "cycleEstimate": {
+          "credit": "41911992",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41911992",
+          "debit": "11218888"
+        }
+      },
+      "fine": {
+        "financialAccount": "MULTAATRASOPG",
+        "billedCounterchargeChargeback": "MULTAATRASOPG",
+        "grantedDebit": "DEBRESTGW",
+        "interestOrFine": {
+          "credit": "41951119",
+          "debit": "11218888"
+        },
+        "unpaidInvoice": {
+          "credit": "41951119",
+          "debit": "11218888"
+        },
+        "paidInvoice": {
+          "credit": "41911992",
+          "debit": "11218888"
+        },
+        "cycleEstimate": {
+          "credit": "41951119",
+          "debit": "11211142"
+        },
+        "chargebackFutureCreditUnusedValue": {
+          "credit": "41951119",
+          "debit": "11218888"
+        },
+        "chargebackFutureCreditUsedValue": {
+          "credit": "41951119",
+          "debit": "11218888"
+        },
+        "chargebackRectifiedBoleto": {
+          "credit": "41951119",
+          "debit": "11218888"
+        },
+        "grantedDebitAccounting": {
+          "credit": "41951119",
+          "debit": "11218888"
+        }
+      }
+    }
+  }
+]

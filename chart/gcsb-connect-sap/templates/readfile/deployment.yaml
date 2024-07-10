@@ -1,0 +1,93 @@
+{{ $fullname := include "gcsb-connect-sap.fullname" . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gcsb-connect-sap.fullname" . }}-readfile
+  labels:
+    {{- include "gcsb-connect-sap.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "gcsb-connect-sap.selectorLabels-readfile" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.readfile.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gcsb-connect-sap.selectorLabels-readfile" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gcsb-connect-sap.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.readfile.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-readfile
+          securityContext:
+            {{- toYaml .Values.readfile.securityContext | nindent 12 }}
+          image: "{{ .Values.readfile.image.repository }}:{{ .Values.readfile.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.readfile.image.pullPolicy }}
+          envFrom:
+            {{- range $secret := .Values.readfile.secretsBase}}
+            - secretRef:
+                name: {{$secret}}
+            {{- end}}
+            {{- range $secret := .Values.readfile.secrets}}
+            - secretRef:
+                name: {{ $fullname }}-{{$secret}}
+            {{- end}}
+          env:
+          {{- with .Values.readfile.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readfile.basepath }}
+            - name: BASE_PATH
+              value: {{ . }}
+          {{- end }}
+          # ports:
+          #   - name: http
+          #     containerPort: 80
+          #     protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: http
+        
+          volumeMounts:
+          {{- range $pvc := .Values.readfile.volumeMounts }}
+            - name: pvc-{{ $pvc.name }}
+              mountPath: {{ $pvc.mountPath }}
+          {{- end }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      {{- with .Values.persistence }}
+        - name: pvc-{{.name}}
+          persistentVolumeClaim: 
+            claimName: {{ $fullname }}-{{ .name }}
+      {{- end }}
+      
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

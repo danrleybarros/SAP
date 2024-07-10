@@ -1,0 +1,28 @@
+{
+  "interfaces": [
+    {
+      "type": "BILL",
+      "source": "/local/bill",
+      "dest": "/app/output",
+      "order": 0,
+      "mode": "local",
+      "search": ".csv"
+    },
+    {
+      "type": "PAYMENT",
+      "source": "/local/pay",
+      "dest": "/app/output",
+      "order": 1,
+      "mode": "local",
+      "search": ".tsv"
+    },
+    {
+      "type": "RETURNNF",
+      "source": "/dados/vivo77434/retorno/",
+      "dest": "/app/output",
+      "order": 2,
+      "mode": "sftp",
+      "search": ""
+    }
+  ]
+}

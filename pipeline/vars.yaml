@@ -1,0 +1,41 @@
+variables:
+  - group: vivo-acr-login     
+  - group: DB_INT_DEV
+  - group: JWT_DEV
+  - group: JSDN_MKP_DEV
+  - group: HARDWARE_LIMITS_DEV
+  - name: FINES_API
+    value: https://$(int-prefix).vivoplataformadigital.com.br/fines/api/BillFeedProcessed/SendProcessedBillFeedFileName
+  - name: DNE_URLV1
+    value: "https://$(int-prefix).vivoplataformadigital.com.br/dne/api/Dne"
+  - name: FTP_NF
+    value: "false"
+  - name: API_GW_URL
+    value: http://gcsbconnect-pay-web.$(envname)-pay
+  - name: TOKEN_GW_URL
+    value: https://$(int-prefix).vivoplataformadigital.com.br/token/api/v2?api-version=2
+  - name: JSDN_URLV1
+    value: https://$(admin-prefix).vivoplataformadigital.com.br/api/1.0
+  - name: TIME_JOB_FAT57
+    value: "21;00;00"
+  - name: TIME_JOB_Lei1601
+    value: "21;00;00"
+  - name: BASE_URI_AUTH
+    value: https://$(int-prefix).vivoplataformadigital.com.br
+  - name: SFTP_MOCK
+    value: "true"
+  - name: INTERFACES
+    value: "ALL"
+  - name: DAYS_DELETE_OLD_LEI_FILES
+    value: "90"  
+  - name: DEST_LOCAL_PATH
+    value: "/app/sap/output/"  
+  - name: PROCESS_LOCAL_PATH
+    value: "/app/sap/processfile/"   
+  - name: FINANCIAL_ACCOUNTS_API
+    value: "https://$(int-prefix).vivoplataformadigital.com.br/financialaccounts" 
+  - name: BILL_MAX_DATE
+    value: "26"  
+  - name: NOT_EXEC_CRITICALS
+    value: "TRUE"  
+    

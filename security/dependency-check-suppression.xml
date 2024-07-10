@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.2.xsd">
+   <suppress>
+	   <notes><![CDATA[
+	   file name: Hangfire.PostgreSql:1.6.3
+	   ]]></notes>
+	   <sha1>ec10d34e024dd4fc09df07399a627e19d042c254</sha1>
+	   <cpe>cpe:/a:postgresql:postgresql</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: FluentFTP:24.0.0
+	   ]]></notes>
+	   <sha1>f3fe4d21b5182d758d5b397446342ac6f26dcb17</sha1>
+	   <cpe>cpe:/a:ftp:ftp</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Gcsb.Connect.SAP.Infrastructure.dll
+	   ]]></notes>
+	   <sha1>acf98e188368e10ddf86cc812e694eb2927e27bc</sha1>
+	   <cpe>cpe:/a:sap:infrastructure</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Gcsb.Connect.SAP.Infrastructure.dll
+	   ]]></notes>
+	   <sha1>a31af730d44ae860229d8c1b00007280378e1cf5</sha1>
+	   <cpe>cpe:/a:sap:infrastructure</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Antiforgery.dll
+	   ]]></notes>
+	   <sha1>a482e6cc1648e7a653fa4ea24f69884c80b3ec09</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Cryptography.Internal.dll
+	   ]]></notes>
+	   <sha1>b929afb1e585f274b4893d7c3cb401732bc53ed1</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.DataProtection.dll
+	   ]]></notes>
+	   <sha1>dc25764ef61b91c07ffdf920230a3aac29d35f21</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.DataProtection.Abstractions.dll
+	   ]]></notes>
+	   <sha1>9b14707e526f027add1cd06adf97ca473505e5b5</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Http.Abstractions.dll
+	   ]]></notes>
+	   <sha1>0b5679b632122a75f91f151cf88d63f672875bee</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Hosting.Abstractions.dll
+	   ]]></notes>
+	   <sha1>771334ecd9dc6d776fc30e6974c04e853f919471</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+	   ]]></notes>
+	   <sha1>8931e30b111122defc49397701023aabd233a1fe</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Http.Extensions.dll
+	   ]]></notes>
+	   <sha1>f1d0325b897afc15c7bda9ba3464628244521694</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Http.Features.dll
+	   ]]></notes>
+	   <sha1>790b8f91cf0688b92152112305b9c076ccb7d889</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.Razor.Language.dll
+	   ]]></notes>
+	   <sha1>c27338b53403b290ac56680dc1459a458fed4f49</sha1>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.AspNetCore.WebUtilities.dll
+	   ]]></notes>
+	   <sha1>da61d5fdd22e800798566736839299070d976412</sha1>
+	   <cpe>cpe:/a:asp-project:asp-project</cpe>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.Extensions.Http.Polly:2.2.0
+	   ]]></notes>
+	   <sha1>b175245e69d061ebe1a67fda8dc232645f1984bd</sha1>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.Extensions.Http.dll
+	   ]]></notes>
+	   <sha1>73686fb2a983accb694d79f2e5d82670f9c05768</sha1>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	   <cpe>cpe:/a:microsoft:system.net.http</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.Net.Http.Headers.dll
+	   ]]></notes>
+	   <sha1>f04eea7ac13adf4224199d6362573b866e91eb97</sha1>
+	   <cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Npgsql.EntityFrameworkCore.PostgreSQL:2.2.4
+	   ]]></notes>
+	   <sha1>48a9c72f18800f7954cfffcb996503978be05fa4</sha1>
+	   <cpe>cpe:/a:postgresql:postgresql</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: RabbitMQ.Client.dll
+	   ]]></notes>
+	   <sha1>2bd7267894c2d28098408e65ddf91fdadf6b19ed</sha1>
+	   <cpe>cpe:/a:pivotal_software:rabbitmq</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: RabbitMQ.Client.dll
+	   ]]></notes>
+	   <sha1>5a96fdd691ee9a732b9059726923a5b0ecfa2307</sha1>
+	   <cpe>cpe:/a:pivotal_software:rabbitmq</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Serilog.Sinks.PostgreSQL:2.1.0
+	   ]]></notes>
+	   <sha1>b5f2508025c5bce7352e356a408014f839ef74b2</sha1>
+	   <cpe>cpe:/a:postgresql:postgresql</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Gcsb.Connect.SAP.Infrastructure.dll
+	   ]]></notes>
+	   <sha1>324149a0f3c38337055a6a3c9b04387615124edf</sha1>
+	   <cpe>cpe:/a:sap:infrastructure</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.CodeCoverage.Shim.dll
+	   ]]></notes>
+	   <sha1>b1698d930ecf40fe06da3a9d1f52f7962f093b38</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+	   ]]></notes>
+	   <sha1>d4fe8ced4983f38f2fa2aa2ef270bc79cf27092f</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.Design:2.2.4
+	   ]]></notes>
+	   <sha1>8c4d3cd264a4a0c7de7f950c39c64733297f1458</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+	   ]]></notes>
+	   <sha1>3d62934e80caa135568d121d750ca50ce3892606</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.dll
+	   ]]></notes>
+	   <sha1>e016cfeb320322d29b32d57dece6ac96ddbed050</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+	   ]]></notes>
+	   <sha1>9bc6b05365c2c1638112b0b90eb49dcc054cb816</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+	   ]]></notes>
+	   <sha1>5a80a72a1f6e72076c74eff289e33fa1d72f1e6d</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+	   ]]></notes>
+	   <sha1>28373f3a6ded31218bdc88d4c56b7f18270c0697</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+	   <notes><![CDATA[
+	   file name: Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+	   ]]></notes>
+	   <sha1>8f8794a18531d9d262a575903867fb4b617d3bac</sha1>
+	   <cpe>cpe:/a:microsoft:visual_studio_code</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Gcsb.Connect.SAP.Infrastructure.dll
+		]]></notes>
+		<sha1>def03b09426267dc2ad55eeba3930cc2cd3b927d</sha1>
+		<cpe>cpe:/a:sap:infrastructure</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+		]]></notes>
+		<sha1>4690c4ea6a8133a55e3f4e5f8cd0f5912050082f</sha1>
+		<cpe>cpe:/a:microsoft:identitymodel</cpe>		
+   		<cpe>cpe:/a:openid:openid</cpe>
+		<cpe>cpe:/a:openid:openid_connect</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Serilog.Sinks.File:4.1.0
+		]]></notes>
+		<sha1>8c2a73441a406141257fa5c41eb2e4533bf268a9</sha1>
+		<cpe>cpe:/a:file_project:file</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Serilog.Sinks.RollingFile:3.3.0
+		]]></notes>
+		<sha1>db2de8f83f87b25761c20177d12724046dd19118</sha1>
+		<cpe>cpe:/a:file_project:file</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Microsoft.AspNetCore.WebUtilities.dll
+		]]></notes>
+		<sha1>92deee204350c7c029f59054b115cbed8ffdf1e6</sha1>
+		<cpe>cpe:/a:microsoft:.net_core</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: Gcsb.Connect.SAP.Infrastructure.dll
+		]]></notes>
+		<sha1>695b975c0ff879545d3c3d021706525ccc56f145</sha1>
+		<cpe>cpe:/a:sap:infrastructure</cpe>
+	</suppress>
+</suppressions>

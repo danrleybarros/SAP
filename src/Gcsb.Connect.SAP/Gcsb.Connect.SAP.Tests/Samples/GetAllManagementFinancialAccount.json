@@ -1,0 +1,200 @@
+[
+  {
+    "storeAcronym": "IOTCo",
+    "isProvider": true,
+    "boleto": {
+      "financialAccount": "ARRECBOL000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11211912",
+      "intercompany": []
+    },
+    "creditCard": {
+      "financialAccount": "ARRECGENE000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11211411",
+      "intercompany": []
+    },
+    "unassigned": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    },
+    "critic": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    },
+    "transferred": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    }
+  },
+  {
+    "storeAcronym": "gwcloud2",
+    "isProvider": false,
+    "boleto": {
+      "financialAccount": "test",
+      "accountingAccountCredit": "test",
+      "accountingAccountDebit": "test",
+      "intercompany": []
+    },
+    "creditCard": {
+      "financialAccount": "test",
+      "accountingAccountCredit": "test",
+      "accountingAccountDebit": "test",
+      "intercompany": []
+    },
+    "unassigned": {
+      "financialAccount": "test",
+      "accountingAccountCredit": "test",
+      "accountingAccountDebit": "test"
+    },
+    "critic": {
+      "financialAccount": "test",
+      "accountingAccountCredit": "test",
+      "accountingAccountDebit": "test"
+    },
+    "transferred": {
+      "financialAccount": "test",
+      "accountingAccountCredit": "test",
+      "accountingAccountDebit": "test"
+    }
+  },
+  {
+    "storeAcronym": "IOTCo",
+    "isProvider": false,
+    "boleto": {
+      "financialAccount": "ARRECBOL000GW",
+      "accountingAccountCredit": "11211912",
+      "accountingAccountDebit": "11215116",
+      "intercompany": []
+    },
+    "creditCard": {
+      "financialAccount": "ARRECGENE000GW",
+      "accountingAccountCredit": "11211411",
+      "accountingAccountDebit": "11215115",
+      "intercompany": []
+    },
+    "unassigned": {
+      "financialAccount": "ARRUNASSI001",
+      "accountingAccountCredit": "21152922",
+      "accountingAccountDebit": "11211912"
+    },
+    "critic": {
+      "financialAccount": "ARRCRITICA001",
+      "accountingAccountCredit": "11211912",
+      "accountingAccountDebit": "11211913"
+    },
+    "transferred": {
+      "financialAccount": "ARRTRANSF001",
+      "accountingAccountCredit": "11211912",
+      "accountingAccountDebit": "11211913"
+    }
+  },
+  {
+    "storeAcronym": "cloudco",
+    "isProvider": false,
+    "boleto": {
+      "financialAccount": "ARRECBOL000GW",
+      "accountingAccountCredit": "11215115",
+      "accountingAccountDebit": "11211912",
+      "intercompany": [
+        {
+          "providerCompany": "IOTCo",
+          "accountingAccountCredit": "11215116",
+          "accountingAccountDebit": "11211411"
+        }
+      ]
+    },
+    "creditCard": {
+      "financialAccount": "ARRECGENE000GW",
+      "accountingAccountCredit": "11215115",
+      "accountingAccountDebit": "11211411",
+      "intercompany": [
+        {
+          "providerCompany": "IOTCo",
+          "accountingAccountCredit": "11215116",
+          "accountingAccountDebit": "11211411"
+        }
+      ]
+    },
+    "unassigned": {
+      "financialAccount": "ARRUNASSI001",
+      "accountingAccountCredit": "11211912",
+      "accountingAccountDebit": "21152922"
+    },
+    "critic": {
+      "financialAccount": "ARRCRITICA001",
+      "accountingAccountCredit": "11211913",
+      "accountingAccountDebit": "11211912"
+    },
+    "transferred": {
+      "financialAccount": "ARRTRANSF001",
+      "accountingAccountCredit": "ARRCREDITD001",
+      "accountingAccountDebit": "ARRCREDITD001"
+    }
+  },
+  {
+    "storeAcronym": "telerese",
+    "isProvider": true,
+    "boleto": {
+      "financialAccount": "ARRECBOL000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11215114",
+      "intercompany": []
+    },
+    "creditCard": {
+      "financialAccount": "ARRECGENE000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11215114",
+      "intercompany": []
+    },
+    "unassigned": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    },
+    "critic": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    },
+    "transferred": {
+      "financialAccount": "",
+      "accountingAccountCredit": "",
+      "accountingAccountDebit": ""
+    }
+  },
+  {
+    "storeAcronym": "telerese",
+    "isProvider": false,
+    "boleto": {
+      "financialAccount": "ARRECBOL000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11215114",
+      "intercompany": []
+    },
+    "creditCard": {
+      "financialAccount": "ARRECGENE000GW",
+      "accountingAccountCredit": "11215116",
+      "accountingAccountDebit": "11215114",
+      "intercompany": []
+    },
+    "unassigned": {
+      "financialAccount": "ARRUNASSI001",
+      "accountingAccountCredit": "11211912",
+      "accountingAccountDebit": "21152922"
+    },
+    "critic": {
+      "financialAccount": "ARRCRITICA001",
+      "accountingAccountCredit": "11211913",
+      "accountingAccountDebit": "11211912"
+    },
+    "transferred": {
+      "financialAccount": "ARRTRANSF001",
+      "accountingAccountCredit": "ARRCREDITD001",
+      "accountingAccountDebit": "ARRCREDITD001"
+    }
+  }
+]

@@ -1,0 +1,533 @@
+{
+  "services": [
+    {
+      "storeAcronym": "cloudco",
+      "serviceCode": "Office365EnterpriseE3",
+      "providerCompanyAcronym": "cloudco",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11211142"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFineUnpaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargeUnpaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFinePaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Tax",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Billing",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11215115",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "CONTRESTGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          }
+        ],
+        "intercompany": []
+      }
+    },
+    {
+      "storeAcronym": "cloudco",
+      "serviceCode": "PowerBIPro",
+      "providerCompanyAcronym": "cloudco",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11211142"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargeUnpaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11215115",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Tax",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "CONTRESTGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFinePaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFineUnpaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Billing",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          }
+        ],
+        "intercompany": []
+      }
+    },
+    {
+      "storeAcronym": "cloudco",
+      "serviceCode": "Office65Business",
+      "providerCompanyAcronym": "cloudco",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11211142"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Tax",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFinePaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "CONTRESTGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billing",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11215115",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargeUnpaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFineUnpaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          }
+        ],
+        "intercompany": []
+      }
+    },
+    {
+      "storeAcronym": "telerese",
+      "serviceCode": "Office365EnterpriseE3",
+      "providerCompanyAcronym": "telerese",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "Billed",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11211142"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Tax",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargeUnpaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFineUnpaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFinePaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "CONTRESTGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Billing",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          }
+        ],
+        "intercompany": []
+      }
+    },
+    {
+      "storeAcronym": "telerese",
+      "serviceCode": "PowerBIPro",
+      "providerCompanyAcronym": "telerese",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11211142"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargeUnpaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFinePaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "ContractualFineUnpaid",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Tax",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11215115",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Billing",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "Discount",
+            "financialAccount": "DESCO365CSPGW",
+            "financialAccountDeb": "31989912",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "Billed",
+            "accountType": "ContractualFine",
+            "financialAccount": "MULTACONTRATFAT",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41951119"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "CONTRESTGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "11215115"
+          },
+          {
+            "interfaceType": "CycleEstimation",
+            "accountType": "Billed",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "41435025"
+          }
+        ],
+        "intercompany": []
+      }
+    },
+    {
+      "storeAcronym": "telerese",
+      "serviceCode": "Office65Business",
+      "providerCompanyAcronym": "telerese",
+      "accountDetail": {
+        "store": [
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "CounterchargePaid",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "41435025",
+            "financialAccountCred": "21152918"
+          },
+          {
+            "interfaceType": "Countercharge",
+            "accountType": "Compensation",
+            "financialAccount": "FATO365CSPGW",
+            "financialAccountDeb": "11211142",
+            "financialAccountCred": "21152918"
+          }
+        ],
+        "intercompany": []
+      }
+    }
+  ]
+}

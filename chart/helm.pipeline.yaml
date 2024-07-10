@@ -1,0 +1,74 @@
+
+resources:
+- repo: self
+
+trigger:
+  branches:
+   include:
+     - master
+     - dev 
+  paths:
+    include:
+      - chart/gcsb-connect-sap/*
+      - chart/helm.pipeline.yaml
+
+variables:  
+  chart-name: gcsb-connect-sap
+  version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Patch is auto-incremented.
+  version.Patch: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Patch)'
+
+stages:
+- stage: Build
+  displayName: Build and Deploy Helm Package
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: Linux
+    steps:
+    - task: HelmInstaller@0
+      inputs:
+        helmVersion: '3.8.1'
+        installKubectl: true
+    - task: HelmDeploy@0
+      inputs:
+        command: 'package'
+        chartPath: '$(Build.SourcesDirectory)/chart/$(chart-name)'
+        chartVersion: '$(versionNumber)'
+        destination: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'chart'
+        publishLocation: 'pipeline'
+- stage: Deploy
+  jobs:
+    - deployment: Deploy_salesforce
+      displayName: Deploy Helm
+      pool: Linux
+      environment: Helm's
+      variables:
+        - group: vivo-acr-login
+      strategy:
+        runOnce:
+          deploy:
+            steps:            
+            - task: HelmInstaller@0
+              inputs:
+                helmVersion: '3.8.1'
+                installKubectl: true
+            - task: Bash@3
+              displayName: Registry Login
+              inputs:
+                targetType: 'inline'
+                script: |
+                  export HELM_EXPERIMENTAL_OCI=1
+                  helm registry login $ACR_NAME --username $(ACR_USER) --password $(ACR_PASS)
+            - task: Bash@3
+              displayName: Push
+              inputs:
+                targetType: 'inline'
+                script: |
+                  echo 'Deploying: ' $(versionNumber)
+                  helm push $(Agent.BuildDirectory)/chart/$(chart-name)-$(versionNumber).tgz oci://$ACR_NAME/helm
+                  

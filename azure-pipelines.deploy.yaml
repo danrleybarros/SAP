@@ -1,0 +1,43 @@
+steps:
+- checkout: self
+- task: HelmInstaller@0
+  inputs:
+    helmVersion: '3.8.1'
+    installKubectl: true
+
+- task: replacetokens@5
+  inputs:
+    targetFiles: '**/values.config.yaml'
+    encoding: 'auto'
+    tokenPattern: 'doublebraces'
+    writeBOM: true
+    actionOnMissing: 'continue'
+    keepToken: false
+    actionOnNoFiles: 'continue'
+    enableTransforms: false
+    enableRecursion: false
+    useLegacyPattern: false
+    enableTelemetry: true
+    
+- task: Kubernetes@1
+  displayName: Kubernetes Login
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    command: 'login'
+- task: Bash@3
+  displayName: Registry Login
+  inputs:
+    targetType: 'inline'
+    script: |
+      export HELM_EXPERIMENTAL_OCI=1
+      helm registry login $ACR_NAME --username $(ACR_USER) --password $(ACR_PASS)
+
+- task: Bash@3
+  displayName: Helm Upgrade/Install
+  inputs:
+    targetType: 'inline'
+    script: |
+      cat values.config.yaml
+      echo 'Deploying: ' $(release-name)
+      helm upgrade $(release-name) oci://$ACR_NAME/helm/$(chart-name) -f values.config.yaml --install -n $(namespace)
+    workingDirectory: $(chart-dir)

@@ -1,0 +1,83 @@
+{{ $fullname := include "gcsb-connect-sap.fullname" . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gcsb-connect-sap.fullname" . }}-apiconfig
+  labels:
+    {{- include "gcsb-connect-sap.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "gcsb-connect-sap.selectorLabels-apiconfig" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.apiconfig.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gcsb-connect-sap.selectorLabels-apiconfig" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gcsb-connect-sap.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.apiconfig.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-apiconfig
+          securityContext:
+            {{- toYaml .Values.apiconfig.securityContext | nindent 12 }}
+          image: "{{ .Values.apiconfig.image.repository }}:{{ .Values.apiconfig.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.apiconfig.image.pullPolicy }}
+          envFrom:
+            {{- range $secret := .Values.apiconfig.secretsBase}}
+            - secretRef:
+                name: {{$secret}}
+            {{- end}}
+            {{- range $secret := .Values.apiconfig.secrets}}
+            - secretRef:
+                name: {{ $fullname }}-{{$secret}}
+            {{- end}}
+          env:
+          {{- with .Values.apiconfig.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.apiconfig.basepath }}
+            - name: BASE_PATH
+              value: {{ . }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

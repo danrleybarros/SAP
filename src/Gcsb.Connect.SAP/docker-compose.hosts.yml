@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+#Web API
+  gcsbconnect-intsap-apiconfig:
+    image: gcsbconnect-intsap-apifiles
+    extra_hosts:
+      - {EXTRA_HOSTS} 
